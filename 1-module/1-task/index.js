@@ -1,41 +1,17 @@
-const intervalId = setInterval(() => {
-  console.log('James');
-}, 10);
-
-setTimeout(() => {
-  const promise = new Promise((resolve) => {
-    console.log('Richard');
-    resolve('Robert');
-  });
-
-  promise
-      .then((value) => {
-        console.log(value);
-
-        setTimeout(() => {
-          console.log('Michael');
-
-          clearInterval(intervalId);
-        }, 10);
-      });
-
-  console.log('John');
-}, 10);
-
 /*
-# Событийный цикл
+# 1-module 1-task: Событийный цикл
+
 Полезные ссылки на статьи и видео по теме событийного цикла:
 
-1. https://developer.mozilla.org/ru/docs/Web/JavaScript/EventLoop (русский)
-1. https://www.youtube.com/watch?v=8aGhZQkoFbQ (английский)
-1. https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules (английский)
+1. [https://developer.mozilla.org/ru/docs/Web/JavaScript/EventLoop](https://developer.mozilla.org/ru/docs/Web/JavaScript/EventLoop) (русский)
+1. [https://www.youtube.com/watch?v=8aGhZQkoFbQ](https://www.youtube.com/watch?v=8aGhZQkoFbQ) (английский)
+1. [https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules) (английский)
 
 Более продвинутая версия, раскрывающая некоторые нюансы реализации в движке V8:
 
 1. https://v8.dev/blog/fast-async (английский)
 
-
-# Порядок вывода сообщений в консоль
+## Порядок вывода сообщений в консоль
 
 Понимание того, как именно выполняется тот или иной код на Javascript – чрезвычайно важное
 качество, отличающее действительно хороших разработчиков.
@@ -156,5 +132,28 @@ microtasks = [];
 // Michael
 
 ```
-
  */
+
+const intervalId = setInterval(() => {
+  console.log('James');
+}, 10);
+
+setTimeout(() => {
+  const promise = new Promise((resolve) => {
+    console.log('Richard');
+    resolve('Robert');
+  });
+
+  promise
+      .then((value) => {
+        console.log(value);
+
+        setTimeout(() => {
+          console.log('Michael');
+
+          clearInterval(intervalId);
+        }, 10);
+      });
+
+  console.log('John');
+}, 10);
