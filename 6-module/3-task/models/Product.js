@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const connection = require('../libs/connection');
+const mongoose = require('mongoose')
+const connection = require('../libs/connection')
 
 const productSchema = new mongoose.Schema({
   title: {
@@ -30,6 +30,21 @@ const productSchema = new mongoose.Schema({
 
   images: [String],
 
-});
+})
 
-module.exports = connection.model('Product', productSchema);
+productSchema.index(
+  {
+    title: 'text',
+    description: 'text',
+  },
+  {
+    name: 'TextSearchIndex',
+    weights: {
+      title: 10,
+      description: 5,
+    },
+    default_language: 'russian',
+  },
+)
+
+module.exports = connection.model('Product', productSchema)
