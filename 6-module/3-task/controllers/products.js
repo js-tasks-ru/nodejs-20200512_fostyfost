@@ -13,7 +13,7 @@ const normalizeProduct = product => {
 }
 
 module.exports.productsByQuery = async ctx => {
-  const searchString = ctx.query?.query || ''
+  const searchString = (ctx.query && ctx.query.query) || ''
 
   const products = await ProductModel
     .find(

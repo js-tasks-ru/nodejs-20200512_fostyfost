@@ -62,7 +62,7 @@ router.get('/subscribe', async (ctx, next) => {
 })
 
 router.post('/publish', async (ctx, next) => {
-  const message = ctx.request?.body?.message
+  const message = ctx.request && ctx.request.body && ctx.request.body.message
 
   if (message) {
     eventBus.publish(PUBLISH_EVENT_NAME, message)
