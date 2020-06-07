@@ -5,7 +5,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --no-warnings --reporter=reporter.js *module/*task/**/*.test.js",
     "test:local": "cross-env NODE_ENV=test node --no-warnings local.js",
-    "lint": "eslint --ignore-pattern 'public' --ignore-pattern '*.test.js' ."
+    "lint": "eslint --ignore-pattern 'public' --ignore-pattern '*.test.js' --ignore-pattern 'client' ."
   },
   "keywords": [],
   "author": "Sergey Zelenov",
