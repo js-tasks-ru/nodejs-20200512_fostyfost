@@ -1,20 +1,49 @@
-const socketIO = require('socket.io');
+const socketIO = require('socket.io')
 
-const Session = require('./models/Session');
-const Message = require('./models/Message');
+const Session = require('./models/Session')
+const Message = require('./models/Message')
 
 function socket(server) {
-  const io = socketIO(server);
+  const io = socketIO(server)
 
   io.use(async function(socket, next) {
-    next();
-  });
+    const token = socket.handshake.query?.token;
 
-  io.on('connection', function(socket) {
-    socket.on('message', async (msg) => {});
-  });
+    if (!token) {
+      return next(new Error('anonymous sessions are not allowed'))
+    }
 
-  return io;
+    const session = await Session.findOne({ token }).populate('user')
+
+    if (!session) {
+      return next(new Error('anonymous sessions are not allowed'))
+    }
+
+    socket.session = session
+
+    next()
+  })
+
+  io.on('connection', socket => {
+    socket.on('message', async text => {
+      if (!text) {
+        return
+      }
+
+      try {
+        await Message.create({
+          user: socket.session.user.displayName,
+          chat: socket.session.user._id,
+          text,
+          date: new Date(),
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    })
+  })
+
+  return io
 }
 
-module.exports = socket;
+module.exports = socket
